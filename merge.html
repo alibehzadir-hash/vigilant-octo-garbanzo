@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Ultra Prompt Builder — Merge (Bilingual)</title>
+<link rel="stylesheet" href="assets/app.css"/>
+</head>
+<body>
+<div class="wrap">
+
+<h1>🧬 ادغام انتخاب‌ها — خروجی دو زبانه</h1>
+<p class="sub">این صفحه از localStorage می‌خواند و خروجی فارسی/انگلیسی می‌سازد.</p>
+<div class="card">
+  <div class="hd"><div>Prompt</div><div><button class="btn" onclick="copyFa()">Copy FA</button> <button class="btn" onclick="copyEn()">Copy EN</button></div></div>
+  <div class="bd"><pre id="outFa"></pre><pre id="outEn"></pre></div>
+</div>
+<script src="scripts/shared.js"></script>
+<script>
+function refresh(){ var out=buildPrompts(); document.getElementById("outFa").textContent=out.fa; document.getElementById("outEn").textContent=out.en; }
+async function copyFa(){ await navigator.clipboard.writeText(document.getElementById("outFa").textContent); alert("Copied FA!"); }
+async function copyEn(){ await navigator.clipboard.writeText(document.getElementById("outEn").textContent); alert("Copied EN!"); }
+window.addEventListener('DOMContentLoaded', refresh);
+</script>
+
+</div>
+</body>
+</html>

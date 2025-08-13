@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>صفحه انتخاب — Time</title>
+<link rel="stylesheet" href="../assets/app.css"/>
+</head>
+<body>
+<div class="wrap">
+
+<h1>📝 Time (دو زبانه)</h1>
+<p class="sub">هر دو فیلد را پر کن؛ فارسی برای نمایش، انگلیسی برای AI.</p>
+<div class="card"><div class="hd"><div>ورودی</div><a class="link" href="../index.html">← بازگشت</a></div>
+  <div class="bd">
+    <input id="valFa" placeholder="مثلاً: سحرگاه، نیمه‌شب"/>
+    <input id="valEn" placeholder="e.g., dawn, midnight" style="margin-top:8px"/>
+    <button class="btn" id="saveBtn" style="margin-top:8px">ذخیره</button>
+  </div>
+</div>
+<div class="footer">ذخیره فعلی: <span id="saved" class="pill"></span></div>
+<script src="../scripts/shared.js"></script>
+<script>
+var FIELD='time';
+document.addEventListener('DOMContentLoaded', function(){
+  var cur=loadSelection(FIELD);
+  document.getElementById('saved').textContent=(cur.fa||cur)||'—';
+  document.getElementById('valFa').value=cur.fa||'';
+  document.getElementById('valEn').value=cur.en||'';
+  document.getElementById('saveBtn').addEventListener('click', function(){
+    var fa=document.getElementById('valFa').value;
+    var en=document.getElementById('valEn').value||fa;
+    saveSelection(FIELD, {fa:fa, en:en});
+    document.getElementById('saved').textContent=fa;
+  });
+});
+</script>
+
+</div>
+</body>
+</html>

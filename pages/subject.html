@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>صفحه انتخاب — Subject</title>
+<link rel="stylesheet" href="../assets/app.css"/>
+</head>
+<body>
+<div class="wrap">
+
+<h1>🧩 Subject</h1>
+<p class="sub">از دسته‌های اصلی انتخاب کن. مقدار فارسی نمایش داده می‌شود؛ هنگام ذخیره، معادل انگلیسی هم ثبت می‌شود.</p>
+<div class="card">
+  <div class="hd"><div>انتخاب از ۱۰ دسته</div><a class="link" href="../index.html">← بازگشت</a></div>
+  <div class="bd">
+    <label>دسته‌بندی</label>
+    <select id="catSel"></select>
+    <div class="list" id="list"></div>
+  </div>
+</div>
+<div class="footer">ذخیره فعلی: <span id="saved" class="pill"></span></div>
+<script src="../scripts/shared.js"></script>
+<script>
+var FIELD='subject';
+var saved = loadSelection(FIELD);
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('saved').textContent = (saved.fa || saved) || '—';
+  fetch('../data/subject.json').then(function(r){return r.json()}).then(function(data){
+    var sel=document.getElementById('catSel');
+    for(var i=0;i<data.categories.length;i++){
+      var c=data.categories[i];
+      var opt=document.createElement('option'); opt.value=i; opt.textContent=c.category+" ("+c.items.length+")"; sel.appendChild(opt);
+    }
+    sel.addEventListener('change', function(){ renderList(data.categories[sel.value]); });
+    sel.value=0; renderList(data.categories[0]);
+  });
+});
+function renderList(cat){
+  var box=document.getElementById('list'); box.innerHTML='';
+  for(var i=0;i<cat.items.length;i++){
+    var it=cat.items[i];
+    var fa = (typeof it==='string')? it : it.fa;
+    var en = (typeof it==='string')? it : it.en;
+    var row=document.createElement('div'); row.className='item';
+    var span=document.createElement('span'); span.textContent=fa + (en && en!==fa ? "  —  "+en : "");
+    var btn=document.createElement('button'); btn.className='btn'; btn.textContent='ذخیره';
+    (function(_fa,_en){ btn.addEventListener('click', function(){ saveSelection(FIELD, {fa:_fa, en:_en}); document.getElementById('saved').textContent=_fa; }); })(fa,en);
+    row.appendChild(span); row.appendChild(btn); box.appendChild(row);
+  }
+}
+</script>
+
+</div>
+</body>
+</html>

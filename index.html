@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Ultra Prompt Builder — ادغام دو زبانه</title>
+<link rel="stylesheet" href="assets/app.css"/>
+</head>
+<body>
+<div class="wrap">
+
+<h1>🔗 ادغام لینک‌ها و صفحات انتخاب — (دو زبانه)</h1>
+<p class="sub">صفحات انتخاب را پر کن، سپس خروجی فارسی و انگلیسی را اینجا ببین.</p>
+<div class="card"><div class="hd"><div>صفحات گزینه‌های اصلی</div></div>
+  <div class="bd grid">
+    <a class="btn" href="pages/subject.html">Subject</a>
+    <a class="btn" href="pages/action.html">Action</a>
+    <a class="btn" href="pages/environment.html">Environment</a>
+    <a class="btn" href="pages/style.html">Style</a>
+    <a class="btn" href="pages/lighting.html">Lighting</a>
+    <a class="btn" href="pages/mood.html">Mood</a>
+    <a class="btn" href="pages/composition.html">Composition</a>
+    <a class="btn" href="pages/scene.html">Scene</a>
+    <a class="btn" href="pages/time.html">Time</a>
+    <a class="btn" href="pages/tolerance.html">Tolerance</a>
+    <a class="btn" href="pages/idea.html">Idea</a>
+    <a class="btn" href="pages/suffix.html">Common Prompt Suffix</a>
+    <a class="btn" href="pages/negative.html">Negative Prompt</a>
+  </div>
+</div>
+
+<div class="card">
+  <div class="hd"><div>خلاصه انتخاب‌ها</div><button class="btn" onclick="refresh()">Refresh</button></div>
+  <div class="bd"><div id="summary"></div></div>
+</div>
+
+<div class="card">
+  <div class="hd"><div>خروجی نهایی</div>
+    <div><button class="btn" onclick="copyFa()">Copy FA</button> <button class="btn" onclick="copyEn()">Copy EN</button></div>
+  </div>
+  <div class="bd">
+    <pre id="outFa"></pre>
+    <pre id="outEn"></pre>
+  </div>
+</div>
+
+<script src="scripts/shared.js"></script>
+<script>
+function refresh(){
+  var fields=[["Subject","subject"],["Action","action"],["Environment","environment"],["Style","style"],["Lighting","lighting"],["Mood","mood"],["Composition","composition"],["Scene","scene"],["Time","time"],["Tolerance","tolerance"],["Idea","idea"],["Suffix","suffix"],["Negative","negative"]];
+  var box=document.getElementById("summary"); box.innerHTML="";
+  for(var i=0;i<fields.length;i++){
+    var label=fields[i][0], key=fields[i][1];
+    var val = loadSelection(key);
+    var fa = (val && val.fa) ? val.fa : (typeof val==="string"?val:"—");
+    var row=document.createElement("div"); row.className="item";
+    var a=document.createElement("a"); a.className="link"; a.textContent=label; a.href=("pages/"+key+".html");
+    var span=document.createElement("span"); span.textContent=fa || "—";
+    row.appendChild(a); row.appendChild(span); box.appendChild(row);
+  }
+  var out = buildPrompts();
+  document.getElementById("outFa").textContent = out.fa;
+  document.getElementById("outEn").textContent = out.en;
+}
+async function copyFa(){ await navigator.clipboard.writeText(document.getElementById("outFa").textContent); alert("Copied FA!"); }
+async function copyEn(){ await navigator.clipboard.writeText(document.getElementById("outEn").textContent); alert("Copied EN!"); }
+window.addEventListener('DOMContentLoaded', refresh);
+</script>
+
+</div>
+</body>
+</html>
